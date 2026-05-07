@@ -4,7 +4,8 @@ import { remarkWikiLink } from '@flowershow/remark-wiki-link';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://pedrogarcia.dev',
+  site: 'https://ytzeleoner.github.io',
+  base: 'pedro-garcia-web',
   markdown: {
     remarkPlugins: [
       [remarkWikiLink, {

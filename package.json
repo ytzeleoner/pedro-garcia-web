@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "sync": "node sync.mjs"
   },
   "dependencies": {
     "@flowershow/remark-wiki-link": "^3.4.0",
