@@ -20,15 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: withastro/action@v3
         with:
           node-version: 22
-          cache: npm
-
-      - run: npm ci
-
-      - uses: withastro/action@v3
-        # Astro action hace el build y sube el artefacto automáticamente
 
   deploy:
     needs: build
