@@ -1,0 +1,43 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const conceptos = await getCollection('conceptos');
+  return conceptos
+    .filter(c => c.data.tags.includes('publicable'))
+    .map(c => ({ params: { slug: c.id }, props: { concepto: c } }));
+}
+
+const { concepto } = Astro.props;
+const { Content } = await render(concepto);
+---
+
+<Layout title={concepto.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}>
+  <!-- Breadcrumb -->
+  <nav class="text-sm text-gray-400 mb-8">
+    <a href="/" class="hover:text-gray-600">Inicio</a>
+    <span class="mx-2">·</span>
+    <a href="/conceptos" class="hover:text-gray-600">Conceptos</a>
+  </nav>
+
+  <!-- Header -->
+  <header class="mb-10">
+    <h1 class="text-2xl font-bold mb-3">
+      {concepto.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+    </h1>
+    <div class="flex gap-2 flex-wrap">
+      {concepto.data.tags
+        .filter(t => t !== 'publicable' && !t.startsWith('wiki/'))
+        .map(tag => (
+          <span class="text-xs text-gray-500 bg-gray-50 border border-gray-200 px-2 py-0.5 rounded">{tag}</span>
+        ))
+      }
+    </div>
+  </header>
+
+  <!-- Contenido -->
+  <article class="prose max-w-none">
+    <Content />
+  </article>
+</Layout>

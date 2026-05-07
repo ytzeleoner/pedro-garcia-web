@@ -1,0 +1,57 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const proyectos = await getCollection('proyectos');
+  return proyectos
+    .filter(p => p.data.tags.includes('publicable'))
+    .map(p => ({ params: { slug: p.id }, props: { proyecto: p } }));
+}
+
+const { proyecto } = Astro.props;
+const { Content } = await render(proyecto);
+
+const statusColor = proyecto.data.status === 'activo'
+  ? 'bg-green-100 text-green-700'
+  : 'bg-gray-100 text-gray-500';
+---
+
+<Layout title={proyecto.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}>
+  <!-- Breadcrumb -->
+  <nav class="text-sm text-gray-400 mb-8">
+    <a href="/" class="hover:text-gray-600">Inicio</a>
+    <span class="mx-2">·</span>
+    <a href="/proyectos" class="hover:text-gray-600">Proyectos</a>
+  </nav>
+
+  <!-- Header del proyecto -->
+  <header class="mb-10">
+    <div class="flex items-start gap-3 mb-3">
+      <h1 class="text-2xl font-bold">
+        {proyecto.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+      </h1>
+      {proyecto.data.status && (
+        <span class={`text-xs px-2 py-1 rounded-full self-start mt-1 ${statusColor}`}>
+          {proyecto.data.status}
+        </span>
+      )}
+    </div>
+    <div class="flex gap-2 flex-wrap">
+      {proyecto.data.tags
+        .filter(t => t !== 'publicable' && !t.startsWith('wiki/'))
+        .map(tag => (
+          <span class="text-xs text-gray-500 bg-gray-50 border border-gray-200 px-2 py-0.5 rounded">{tag}</span>
+        ))
+      }
+    </div>
+    {proyecto.data.periodo && (
+      <p class="text-sm text-gray-400 mt-2">{proyecto.data.periodo}</p>
+    )}
+  </header>
+
+  <!-- Contenido -->
+  <article class="prose max-w-none">
+    <Content />
+  </article>
+</Layout>

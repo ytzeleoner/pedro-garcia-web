@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+// Cargamos el perfil desde wiki/sobre-mi/perfil.md
+const sobreMiEntries = await getCollection('sobreMi');
+const perfil = sobreMiEntries.find(e => e.id === 'perfil');
+const { Content } = perfil ? await render(perfil) : { Content: null };
+
+// Proyectos publicables para el home
+const proyectos = (await getCollection('proyectos'))
+  .filter(p => p.data.tags.includes('publicable'))
+  .sort((a, b) => (b.data.created?.getTime() ?? 0) - (a.data.created?.getTime() ?? 0));
+---
+
+<Layout title="Inicio">
+  <!-- Hero -->
+  <section class="mb-16">
+    <h1 class="text-3xl font-bold mb-3">Pedro García</h1>
+    <p class="text-lg text-gray-600 mb-6">
+      Agile Coach y estratega de IA. Trabajo en la intersección entre negocio, equipos y tecnología.
+    </p>
+    <div class="flex gap-4">
+      <a href="/proyectos" class="bg-gray-900 text-white px-4 py-2 rounded text-sm hover:bg-gray-700 transition-colors">
+        Ver proyectos
+      </a>
+      <a href="/conceptos" class="border border-gray-300 px-4 py-2 rounded text-sm hover:border-gray-500 transition-colors">
+        Conceptos
+      </a>
+    </div>
+  </section>
+
+  <!-- Perfil -->
+  {perfil && (
+    <section class="mb-16 prose max-w-none">
+      <Content />
+    </section>
+  )}
+
+  <!-- Proyectos destacados -->
+  <section>
+    <h2 class="text-xl font-semibold mb-6">Proyectos</h2>
+    <div class="grid gap-4 sm:grid-cols-2">
+      {proyectos.map(p => (
+        <a href={`/proyectos/${p.id}`} class="block border border-gray-200 rounded-lg p-5 hover:border-blue-300 hover:shadow-sm transition-all">
+          <div class="flex items-start justify-between gap-2 mb-2">
+            <h3 class="font-medium text-gray-900">{p.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</h3>
+            {p.data.status && (
+              <span class={`text-xs px-2 py-0.5 rounded-full shrink-0 ${p.data.status === 'activo' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                {p.data.status}
+              </span>
+            )}
+          </div>
+          <div class="flex gap-2 flex-wrap mt-3">
+            {p.data.tags.filter(t => t !== 'publicable' && !t.startsWith('wiki/')).slice(0, 3).map(tag => (
+              <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded">{tag}</span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>
