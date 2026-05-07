@@ -10,14 +10,15 @@
  */
 
 import { cpSync, existsSync } from 'fs';
-import { resolve, join } from 'path';
+import { resolve } from 'path';
+import { fileURLToPath } from 'url';
 import { homedir } from 'os';
 
 const VAULT_WIKI = resolve(
   homedir(),
   'Library/CloudStorage/GoogleDrive-ytzeleoner@gmail.com/Mi unidad/obsidian/notebookLM/NotebookLM/wiki'
 );
-const DEST = new URL('./src/content/wiki', import.meta.url).pathname;
+const DEST = resolve(fileURLToPath(import.meta.url), '../src/content/wiki');
 const DRY = process.argv.includes('--dry');
 
 if (!existsSync(VAULT_WIKI)) {
