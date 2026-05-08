@@ -2,25 +2,28 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 const conceptos = (await getCollection('conceptos'))
   .filter(c => c.data.tags.includes('publicable'))
   .sort((a, b) => (b.data.created?.getTime() ?? 0) - (a.data.created?.getTime() ?? 0));
 ---
 
 <Layout title="Conceptos">
-  <h1 class="text-2xl font-bold mb-2">Conceptos</h1>
-  <p class="text-gray-500 mb-10 text-sm">Metodologías, patrones y marcos destilados de la experiencia.</p>
+  <p class="mono mb-3">conceptos</p>
+  <h1 class="text-3xl font-bold text-white mb-3 tracking-tight">Conceptos</h1>
+  <p class="text-slate-400 mb-14 max-w-lg">Metodologías, patrones y marcos destilados de la experiencia.</p>
 
-  <div class="space-y-4">
+  <div class="space-y-3">
     {conceptos.map(c => (
-      <a href={`/conceptos/${c.id}`} class="flex items-start justify-between gap-4 border border-gray-200 rounded-lg p-5 hover:border-blue-300 hover:shadow-sm transition-all">
+      <a href={`${base}/conceptos/${c.id}`} class="glass p-5 flex items-start justify-between gap-4">
         <div>
-          <h2 class="font-semibold text-gray-900 mb-1">
+          <h2 class="font-semibold text-white mb-2">
             {c.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
           </h2>
           <div class="flex gap-2 flex-wrap">
             {c.data.tags.filter(t => t !== 'publicable' && !t.startsWith('wiki/')).slice(0, 3).map(tag => (
-              <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded">{tag}</span>
+              <span class="mono">{tag}</span>
             ))}
           </div>
         </div>

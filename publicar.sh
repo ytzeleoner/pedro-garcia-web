@@ -1,8 +1,8 @@
 #!/bin/bash
 # publicar.sh — Sincroniza la bóveda y publica la web
 #
-# Uso:
-#   ./publicar.sh                   ← sync + commit automático + push
+# Uso desde el proyecto Astro o desde la bóveda Obsidian:
+#   ./publicar.sh                   ← sync + build + commit + push
 #   ./publicar.sh "mensaje custom"  ← mismo pero con mensaje de commit propio
 #   ./publicar.sh --dry             ← muestra qué haría sin hacer nada
 
@@ -21,6 +21,11 @@ ok()   { echo -e "${GREEN}✓${NC} $*"; }
 info() { echo -e "${YELLOW}→${NC} $*"; }
 err()  { echo -e "${RED}✗${NC} $*"; exit 1; }
 
+# ── Dependencias ──────────────────────────────────────────────────────────
+command -v node >/dev/null 2>&1 || err "node no encontrado — instala Node.js"
+command -v npm  >/dev/null 2>&1 || err "npm no encontrado"
+command -v git  >/dev/null 2>&1 || err "git no encontrado"
+
 # ── Argumentos ────────────────────────────────────────────────────────────
 DRY=false
 COMMIT_MSG=""
@@ -30,15 +35,16 @@ for arg in "$@"; do
     *)     COMMIT_MSG="$arg" ;;
   esac
 done
+[ -z "$COMMIT_MSG" ] && COMMIT_MSG="sync: publicar wiki $(date '+%Y-%m-%d')"
 
-if [ -z "$COMMIT_MSG" ]; then
-  COMMIT_MSG="sync: publicar wiki $(date '+%Y-%m-%d')"
-fi
+# ── Rama actual ───────────────────────────────────────────────────────────
+BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null) || err "No es un repositorio git"
 
 echo ""
 echo "  pedro-garcia-web — publicar"
 echo "  ─────────────────────────────"
-[ "$DRY" = true ] && echo -e "  ${YELLOW}Modo dry run — no se ejecuta nada${NC}\n"
+[ "$DRY" = true ] && echo -e "  ${YELLOW}Modo dry run — no se ejecuta nada${NC}"
+echo ""
 
 # ── 1. Sincronizar wiki desde la bóveda ───────────────────────────────────
 info "Sincronizando wiki desde la bóveda Obsidian..."
@@ -49,7 +55,7 @@ else
 fi
 ok "Wiki sincronizado"
 
-# ── 2. Comprobar si hay cambios ────────────────────────────────────────────
+# ── 2. Comprobar si hay cambios en todo el proyecto ───────────────────────
 CHANGES=$(git status --porcelain 2>/dev/null)
 if [ -z "$CHANGES" ]; then
   ok "Sin cambios — la web ya está al día"
@@ -58,24 +64,31 @@ fi
 
 info "Cambios detectados:"
 git status --short
+echo ""
 
-# ── 3. Build local para verificar antes de publicar ───────────────────────
+# ── 3. Build para verificar antes de publicar ─────────────────────────────
 info "Verificando build..."
 if [ "$DRY" = true ]; then
   echo "   (build omitido en dry run)"
 else
-  npm run build -- --silent 2>&1 | tail -3
+  BUILD_OUTPUT=$(npm run build 2>&1)
+  BUILD_EXIT=$?
+  if [ $BUILD_EXIT -ne 0 ]; then
+    echo "$BUILD_OUTPUT"
+    err "Build fallido — no se ha publicado nada"
+  fi
+  echo "$BUILD_OUTPUT" | grep -E "Complete|page\(s\)" | tail -2
   ok "Build correcto"
 fi
 
 # ── 4. Commit y push ──────────────────────────────────────────────────────
 if [ "$DRY" = false ]; then
-  git add src/content/wiki
+  git add -A
   git commit -m "$COMMIT_MSG"
   ok "Commit: $COMMIT_MSG"
 
-  info "Publicando en GitHub Pages..."
-  git push origin master
+  info "Publicando en GitHub Pages (rama: $BRANCH)..."
+  git push origin "$BRANCH"
   ok "Push completado"
 fi
 

@@ -1,0 +1,56 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const publicaciones = await getCollection('publicaciones').catch(() => []);
+  return publicaciones
+    .filter(p => p.data.tags?.includes('publicable') && p.data.estado === 'publicado')
+    .map(p => ({ params: { slug: p.id }, props: { articulo: p } }));
+}
+
+const { articulo } = Astro.props;
+const { Content } = await render(articulo);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const titulo = articulo.data.titulo ?? articulo.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+const fecha = articulo.data.created?.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Layout title={titulo}>
+  <!-- Breadcrumb -->
+  <nav class="text-sm text-slate-500 mb-10 flex items-center gap-2">
+    <a href={`${base}/`} class="hover:text-slate-300 transition-colors">Inicio</a>
+    <span>·</span>
+    <a href={`${base}/blog`} class="hover:text-slate-300 transition-colors">Blog</a>
+  </nav>
+
+  <!-- Header -->
+  <header class="mb-12 max-w-2xl">
+    {articulo.data.extracto && (
+      <p class="mono mb-4">{articulo.data.extracto.split(' ').slice(0, 6).join(' ')}…</p>
+    )}
+    <h1 class="text-3xl sm:text-4xl font-bold text-white tracking-tight leading-tight mb-4">
+      {titulo}
+    </h1>
+    {articulo.data.extracto && (
+      <p class="text-lg text-slate-400 leading-relaxed mb-6">{articulo.data.extracto}</p>
+    )}
+    {fecha && <p class="text-sm text-slate-500">{fecha}</p>}
+  </header>
+
+  <hr class="divider" />
+
+  <!-- Contenido -->
+  <article class="prose max-w-2xl">
+    <Content />
+  </article>
+
+  <hr class="divider" />
+
+  <!-- Footer del artículo -->
+  <footer class="flex items-center justify-between">
+    <a href={`${base}/blog`} class="text-sm text-slate-500 hover:text-slate-300 transition-colors">← Volver al blog</a>
+    <a href="https://linkedin.com/in/pedrogarcia" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Conectar en LinkedIn →</a>
+  </footer>
+</Layout>

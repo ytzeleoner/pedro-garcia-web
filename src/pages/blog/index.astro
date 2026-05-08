@@ -1,0 +1,57 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const articulos = [
+  {
+    titulo: 'Los tres patrones de uso de IA en ingeniería de construcción',
+    descripcion: 'Cómo los equipos de ingeniería civil están adoptando IA: tres perfiles distintos con necesidades y riesgos diferentes.',
+    tema: 'IA aplicada',
+  },
+  {
+    titulo: 'Por qué Copilot no es suficiente',
+    descripcion: 'La tensión entre contratos corporativos con Microsoft y las herramientas que los equipos técnicos realmente necesitan.',
+    tema: 'IA · Estrategia',
+  },
+  {
+    titulo: 'Cómo la IA está cambiando el trabajo en obra: el caso de North London',
+    descripcion: 'Un ingeniero de estructuras usa IA para convertir planos en tablas de Excel paginadas. Parece pequeño. No lo es.',
+    tema: 'Caso de uso',
+  },
+  {
+    titulo: 'Agile Coach en la era de la IA: cómo cambia el rol',
+    descripcion: 'La IA no sustituye la facilitación — pero obliga a replantear qué aporta el coach cuando el equipo genera código y documentación en minutos.',
+    tema: 'Agile · IA',
+  },
+  {
+    titulo: 'Cómo integré Claude Code con Obsidian para gestionar mi diario profesional',
+    descripcion: 'Un sistema de gestión del conocimiento personal construido sobre Obsidian y Claude Code. Cómo funciona y por qué lo construí.',
+    tema: 'Herramientas',
+  },
+];
+---
+
+<Layout title="Blog">
+  <p class="mono mb-3">blog</p>
+  <h1 class="text-3xl font-bold text-white mb-3 tracking-tight">Blog</h1>
+  <p class="text-slate-400 mb-14 max-w-lg">Reflexiones sobre Agile, IA aplicada y trabajo en organizaciones de ingeniería.</p>
+
+  <!-- Próximamente ─────────────────────────────────────── -->
+  <section>
+    <div class="flex items-center gap-3 mb-6">
+      <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-widest">En preparación</h2>
+      <span class="badge-soon">próximamente</span>
+    </div>
+    <div class="space-y-3">
+      {articulos.map(a => (
+        <div class="glass p-5 flex items-start justify-between gap-6">
+          <div class="flex-1 min-w-0">
+            <p class="mono mb-2">{a.tema}</p>
+            <h3 class="font-semibold text-white mb-2 leading-snug">{a.titulo}</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">{a.descripcion}</p>
+          </div>
+          <span class="badge-soon shrink-0 self-start">draft</span>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>

@@ -13,6 +13,7 @@ const proyectos = defineCollection({
   schema: baseSchema.extend({
     status: z.enum(['activo', 'completado']).optional(),
     periodo: z.string().optional(),
+    cliente: z.string().optional(),
   }),
 });
 
@@ -26,4 +27,14 @@ const sobreMi = defineCollection({
   schema: baseSchema,
 });
 
-export const collections = { proyectos, conceptos, sobreMi };
+const publicaciones = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/wiki/publicaciones' }),
+  schema: baseSchema.extend({
+    estado: z.enum(['publicado', 'borrador', 'idea']).default('idea'),
+    titulo: z.string().optional(),
+    extracto: z.string().optional(),
+    url: z.string().optional(),
+  }),
+});
+
+export const collections = { proyectos, conceptos, sobreMi, publicaciones };

@@ -2,62 +2,89 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
 
-// Cargamos el perfil desde wiki/sobre-mi/perfil.md
-const sobreMiEntries = await getCollection('sobreMi');
-const perfil = sobreMiEntries.find(e => e.id === 'perfil');
-const { Content } = perfil ? await render(perfil) : { Content: null };
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Proyectos publicables para el home
 const proyectos = (await getCollection('proyectos'))
   .filter(p => p.data.tags.includes('publicable'))
-  .sort((a, b) => (b.data.created?.getTime() ?? 0) - (a.data.created?.getTime() ?? 0));
+  .sort((a, b) => (b.data.created?.getTime() ?? 0) - (a.data.created?.getTime() ?? 0))
+  .slice(0, 4);
+
+const titulos: Record<string, string> = {
+  'rol-ia-acciona': 'Estrategia de IA en Ingeniería',
+  'adaptador-iniciativas-jira': 'Automatización Jira + Google Sheets',
+  'transformacion-agile-mobility': 'Transformación Agile a escala',
+  'scrum-master-masmovil-kairos': 'Scrum Master en MasMovil',
+  'lider-tecnico-accenture': 'Líder técnico — Accenture',
+};
+
+const descripciones: Record<string, string> = {
+  'rol-ia-acciona': 'Programa de Key Players, clasificación de casos de uso y roadmap de herramientas IA para 40.000+ personas.',
+  'adaptador-iniciativas-jira': 'Pipeline Python que carga iniciativas desde Google Sheets a Jira Advanced Roadmaps en segundos.',
+  'transformacion-agile-mobility': '6 equipos Scrum desde cero con Nexus. De monolito a despliegues ×10 más rápidos.',
+  'scrum-master-masmovil-kairos': 'Acompañamiento ágil en MasMovil durante su fase de crecimiento acelerado.',
+  'lider-tecnico-accenture': '11 años liderando proyectos de desarrollo de software para múltiples clientes.',
+};
 ---
 
 <Layout title="Inicio">
-  <!-- Hero -->
-  <section class="mb-16">
-    <h1 class="text-3xl font-bold mb-3">Pedro García</h1>
-    <p class="text-lg text-gray-600 mb-6">
-      Agile Coach y estratega de IA. Trabajo en la intersección entre negocio, equipos y tecnología.
+
+  <!-- Hero ──────────────────────────────────────────────── -->
+  <section class="mb-24 pt-4">
+    <p class="mono mb-4">agile coach · ia strategy</p>
+    <h1 class="text-4xl sm:text-5xl font-bold text-white leading-tight tracking-tight mb-6">
+      Pedro García
+    </h1>
+    <p class="text-lg text-slate-300 max-w-xl leading-relaxed mb-10">
+      Trabajo en la intersección entre negocio, equipos y tecnología.
+      Construyo frameworks ágiles y sistemas con IA que resuelven problemas reales
+      en organizaciones de ingeniería.
     </p>
-    <div class="flex gap-4">
-      <a href="/proyectos" class="bg-gray-900 text-white px-4 py-2 rounded text-sm hover:bg-gray-700 transition-colors">
-        Ver proyectos
+    <div class="flex gap-3 flex-wrap">
+      <a href={`${base}/experiencia`} class="px-5 py-2.5 rounded-lg text-sm font-medium text-white transition-all"
+         style="background: linear-gradient(135deg, #7c3aed, #4f46e5); box-shadow: 0 0 20px rgba(124,58,237,0.4);">
+        Ver experiencia
       </a>
-      <a href="/conceptos" class="border border-gray-300 px-4 py-2 rounded text-sm hover:border-gray-500 transition-colors">
-        Conceptos
+      <a href={`${base}/blog`} class="glass px-5 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:text-white">
+        Blog
       </a>
     </div>
   </section>
 
-  <!-- Perfil -->
-  {perfil && (
-    <section class="mb-16 prose max-w-none">
-      <Content />
-    </section>
-  )}
-
-  <!-- Proyectos destacados -->
-  <section>
-    <h2 class="text-xl font-semibold mb-6">Proyectos</h2>
+  <!-- Proyectos destacados ───────────────────────────────── -->
+  <section class="mb-24">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-lg font-semibold text-white">Proyectos destacados</h2>
+      <a href={`${base}/proyectos`} class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Ver todos →</a>
+    </div>
     <div class="grid gap-4 sm:grid-cols-2">
       {proyectos.map(p => (
-        <a href={`/proyectos/${p.id}`} class="block border border-gray-200 rounded-lg p-5 hover:border-blue-300 hover:shadow-sm transition-all">
-          <div class="flex items-start justify-between gap-2 mb-2">
-            <h3 class="font-medium text-gray-900">{p.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</h3>
-            {p.data.status && (
-              <span class={`text-xs px-2 py-0.5 rounded-full shrink-0 ${p.data.status === 'activo' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
-                {p.data.status}
-              </span>
-            )}
+        <a href={`${base}/proyectos/${p.id}`} class="glass p-5 block">
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <span class="mono">{p.data.cliente ?? 'Proyectos'}</span>
+            {p.data.status === 'activo'
+              ? <span class="badge-active">activo</span>
+              : <span class="badge-done">completado</span>
+            }
           </div>
-          <div class="flex gap-2 flex-wrap mt-3">
-            {p.data.tags.filter(t => t !== 'publicable' && !t.startsWith('wiki/')).slice(0, 3).map(tag => (
-              <span class="text-xs text-gray-500 bg-gray-50 px-2 py-0.5 rounded">{tag}</span>
-            ))}
-          </div>
+          <h3 class="font-semibold text-white mb-2 leading-snug">
+            {titulos[p.id] ?? p.id.replace(/-/g, ' ')}
+          </h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            {descripciones[p.id] ?? ''}
+          </p>
         </a>
       ))}
     </div>
   </section>
+
+  <!-- Stack rápido ──────────────────────────────────────── -->
+  <section>
+    <h2 class="text-lg font-semibold text-white mb-6">Stack</h2>
+    <div class="flex flex-wrap gap-2">
+      {['Agile / Nexus', 'Jira Advanced Roadmaps', 'Python', 'Claude / LLMs', 'Google Workspace', 'PowerBI', 'Obsidian', 'Astro'].map(tool => (
+        <span class="glass px-3 py-1.5 text-sm text-slate-300 rounded-lg">{tool}</span>
+      ))}
+    </div>
+  </section>
+
 </Layout>
