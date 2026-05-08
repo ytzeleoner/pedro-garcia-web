@@ -49,7 +49,27 @@ La vista reactivó conversaciones y recolocaciones que no salían en reuniones. 
 
 ---
 
+## Kairos — MasMovil (2018–2019)
+
+*(Pendiente de desarrollar con más detalle. La etapa es relevante como origen directo de la conexión con Acciona.)*
+
+→ Ver [[scrum-master-masmovil-kairos]]
+
+---
+
+## Accenture (~2006–2017)
+
+**11 años como líder técnico** en proyectos de desarrollo de software para múltiples clientes. Base técnica del perfil actual.
+
+*(Pendiente de desarrollar — proyectos destacados, tecnologías, clientes.)*
+
+→ Ver [[lider-tecnico-accenture]]
+
+---
+
 ## Ver también
 
 - [[perfil]] — Propuesta de valor completa
 - [[herramientas]] — Stack técnico
+- [[scrum-master-masmovil-kairos]] — Kairos / MasMovil
+- [[lider-tecnico-accenture]] — Accenture

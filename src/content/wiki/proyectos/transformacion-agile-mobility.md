@@ -5,6 +5,7 @@ updated: 2026-05-07
 source: "[[Transformación Agile en Acciona Mobility]]"
 status: completado
 periodo: "2019-10 / 2021-12"
+cliente: Acciona
 ---
 
 # Transformación Agile a escala — Acciona Mobility (2019–2021)

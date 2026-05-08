@@ -4,6 +4,7 @@ created: 2026-05-07
 updated: 2026-05-07
 source: "[[Adaptador Iniciativas IA a Jira]]"
 status: activo
+cliente: Acciona
 ---
 
 # Adaptador de iniciativas IA a Jira Advanced Roadmaps

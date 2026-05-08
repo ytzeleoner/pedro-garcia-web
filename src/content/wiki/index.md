@@ -26,9 +26,22 @@ Narrativa personal y profesional. Alimenta el portfolio.
 
 Síntesis de proyectos notables. Formato: contexto → problema → solución → resultado.
 
+**Acciona (actual)**
 - [[rol-ia-acciona]] — Estrategia y operativa de IA en ingeniería de Acciona
 - [[adaptador-iniciativas-jira]] — Automatización de carga de iniciativas IA en Jira Advanced Roadmaps
 - [[transformacion-agile-mobility]] — Transformación Agile a escala en Acciona Mobility (2019–2021)
+
+**Experiencia anterior**
+- [[scrum-master-masmovil-kairos]] — Scrum Master en MasMovil vía Kairos (2018–2019)
+- [[lider-tecnico-accenture]] — Líder técnico en Accenture (~2006–2017, 11 años)
+
+---
+
+## Publicaciones
+
+Artículos y reflexiones sobre Agile, IA y trabajo en organizaciones de ingeniería.
+
+- [[index-publicaciones]] — Índice del blog: publicados y en preparación
 
 ---
 

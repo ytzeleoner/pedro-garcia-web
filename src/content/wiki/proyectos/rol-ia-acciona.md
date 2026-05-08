@@ -4,6 +4,7 @@ created: 2026-05-07
 updated: 2026-05-07
 source: "[[Rol IA en Ingeniería Acciona]]"
 status: activo
+cliente: Acciona
 ---
 
 # Estrategia de IA en Ingeniería — Acciona (2025–actual)
