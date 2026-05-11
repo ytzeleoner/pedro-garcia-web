@@ -19,38 +19,38 @@ const fecha = articulo.data.created?.toLocaleDateString('es-ES', { year: 'numeri
 
 <Layout title={titulo}>
   <!-- Breadcrumb -->
-  <nav class="text-sm text-slate-500 mb-10 flex items-center gap-2">
-    <a href={`${base}/`} class="hover:text-slate-300 transition-colors">Inicio</a>
+  <nav style="font-family:var(--font-mono);font-size:var(--fs-mono);color:var(--text-3);margin-bottom:var(--s-8);display:flex;align-items:center;gap:var(--s-2);">
+    <a href={`${base}/`} style="color:var(--text-3);transition:color var(--dur-fast);" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-3)'">Inicio</a>
     <span>·</span>
-    <a href={`${base}/blog`} class="hover:text-slate-300 transition-colors">Blog</a>
+    <a href={`${base}/blog`} style="color:var(--text-3);transition:color var(--dur-fast);" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-3)'">Blog</a>
   </nav>
 
   <!-- Header -->
-  <header class="mb-12 max-w-2xl">
+  <header style="margin-bottom:var(--s-9);max-width:64ch;">
     {articulo.data.extracto && (
-      <p class="mono mb-4">{articulo.data.extracto.split(' ').slice(0, 6).join(' ')}…</p>
+      <p class="mono" style="margin-bottom:var(--s-4);">{articulo.data.extracto.split(' ').slice(0, 6).join(' ')}…</p>
     )}
-    <h1 class="text-3xl sm:text-4xl font-bold text-white tracking-tight leading-tight mb-4">
+    <h1 style="font-size:clamp(28px,4vw,40px);font-weight:var(--fw-bold);color:var(--text);letter-spacing:var(--ls-tight-3);line-height:1.15;margin-bottom:var(--s-4);">
       {titulo}
     </h1>
     {articulo.data.extracto && (
-      <p class="text-lg text-slate-400 leading-relaxed mb-6">{articulo.data.extracto}</p>
+      <p style="font-size:var(--fs-lede);color:var(--text-2);line-height:1.55;margin-bottom:var(--s-5);">{articulo.data.extracto}</p>
     )}
-    {fecha && <p class="text-sm text-slate-500">{fecha}</p>}
+    {fecha && <p style="font-family:var(--font-mono);font-size:var(--fs-mono);color:var(--text-3);">{fecha}</p>}
   </header>
 
   <hr class="divider" />
 
   <!-- Contenido -->
-  <article class="prose max-w-2xl">
+  <article class="prose" style="max-width:64ch;">
     <Content />
   </article>
 
   <hr class="divider" />
 
-  <!-- Footer del artículo -->
-  <footer class="flex items-center justify-between">
-    <a href={`${base}/blog`} class="text-sm text-slate-500 hover:text-slate-300 transition-colors">← Volver al blog</a>
-    <a href="https://linkedin.com/in/pedrogarcia" class="text-sm text-violet-400 hover:text-violet-300 transition-colors">Conectar en LinkedIn →</a>
+  <!-- Footer artículo -->
+  <footer style="display:flex;align-items:center;justify-content:space-between;">
+    <a href={`${base}/blog`} style="font-size:13px;color:var(--text-3);transition:color var(--dur-fast);" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-3)'">← Volver al blog</a>
+    <a href="https://linkedin.com/in/pedrogarcia" style="font-family:var(--font-mono);font-size:var(--fs-mono);color:var(--accent);">Conectar en LinkedIn →</a>
   </footer>
 </Layout>

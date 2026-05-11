@@ -1,0 +1,127 @@
+/* ──────────────────────────────────────────────
+   AI-Native Dark — Design Tokens
+   Extracted from pedro-garcia.dev (v3-ai-native)
+   ────────────────────────────────────────────── */
+
+:root{
+  /* ── Color · neutrals ── */
+  --bg:        #0A0A0A;  /* page background */
+  --bg-2:      #0F0F0F;  /* subtle elevation, statusbar, card heads */
+  --surface:   #141414;  /* hover surface */
+  --card:      #171717;  /* cards, tiles */
+  --line:      #222222;  /* default borders */
+  --line-2:    #2a2a2a;  /* slightly stronger separators */
+
+  /* ── Color · text ── */
+  --text:      #FAFAFA;  /* primary */
+  --text-2:    #A1A1AA;  /* secondary, lede, body */
+  --text-3:    #71717A;  /* tertiary, mono labels, meta */
+
+  /* ── Color · accent + semantic ── */
+  --accent:    #C5FF4A;  /* lime — single accent for the whole system */
+  --accent-2:  #84cc16;  /* darker lime, hover/press */
+  --accent-soft: rgba(197,255,74,.12);
+  --accent-glow: rgba(197,255,74,.18);
+  --warn:      #FF6B35;
+  --good:      #22c55e;
+
+  /* ── Typography · families ── */
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+
+  /* ── Typography · scale ── */
+  --fs-micro:  10px;     /* tags inside images, badge inside head */
+  --fs-mono:   11px;     /* meta labels, statusbar, section nums */
+  --fs-mono-l: 12px;     /* dl/dt/dd, timeline meta */
+  --fs-body:   14px;     /* base body */
+  --fs-body-l: 15px;     /* section subs, feature copy */
+  --fs-lede:   18px;     /* hero lede */
+  --fs-h3:     20px;     /* tile titles */
+  --fs-h3-l:   22px;     /* timeline titles */
+  --fs-h2:     32px;     /* big ask, feature tile */
+  --fs-sec:    36px;     /* section titles */
+  --fs-hero:   clamp(56px, 8vw, 108px);
+  --fs-footer-big: clamp(56px, 9vw, 128px);
+
+  /* ── Typography · weights ── */
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semi: 600;
+  --fw-bold: 700;
+
+  /* ── Typography · letter-spacing ── */
+  --ls-tight: -.04em;    /* hero, footer big */
+  --ls-tight-2: -.025em; /* section titles */
+  --ls-tight-3: -.02em;  /* feature tile */
+  --ls-tight-4: -.015em; /* tile h3 */
+  --ls-wide: .06em;      /* mono uppercase labels */
+  --ls-wide-2: .08em;    /* footer col headers */
+
+  /* ── Spacing ── */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 40px;
+  --s-8: 48px;
+  --s-9: 64px;
+  --s-10: 80px;
+  --s-11: 88px;
+
+  /* ── Radii ── */
+  --r-xs: 4px;    /* tiny tags */
+  --r-sm: 6px;    /* kbd, nav items, send button */
+  --r-md: 8px;    /* buttons, stack cells */
+  --r-lg: 10px;   /* inputs, answer card */
+  --r-xl: 12px;   /* cards, tiles, info-card */
+  --r-2xl: 16px;  /* ask-card */
+  --r-pill: 999px;
+
+  /* ── Borders ── */
+  --bd: 1px solid var(--line);
+  --bd-2: 1px solid var(--line-2);
+
+  /* ── Motion ── */
+  --ease-out: cubic-bezier(.4, 0, .2, 1);
+  --dur-fast: .18s;
+  --dur-base: .35s;
+  --dur-slow: .6s;
+
+  /* ── Layout ── */
+  --wrap-max: 1280px;
+  --wrap-pad: 32px;
+  --wrap-pad-m: 20px;
+}
+
+/* ── Base ── */
+*{ box-sizing: border-box; }
+html, body{ margin:0; padding:0; }
+body{
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "cv11";
+  overflow-x: hidden;
+}
+a{ color: inherit; text-decoration: none; }
+::selection{ background: var(--accent); color: var(--bg); }
+
+/* Utilities */
+.mono{ font-family: var(--font-mono); }
+.wrap{ max-width: var(--wrap-max); margin: 0 auto; padding: 0 var(--wrap-pad); }
+
+/* Subtle dot/grid backdrop — full bleed */
+.bg-grid::before{
+  content:""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 30%, transparent 100%);
+}

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AI-Native Dark — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens.css" />
+<link rel="stylesheet" href="components.css" />
+<style>
+  body{ padding-bottom: 120px; }
+  .docwrap{ max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+  .top-banner{
+    padding: 80px 0 56px; border-bottom: var(--bd);
+    background:
+      radial-gradient(ellipse 80% 60% at 30% 0%, rgba(197,255,74,.04), transparent 60%),
+      var(--bg);
+  }
+  .top-banner h1{
+    font-size: clamp(48px,7vw,88px); line-height: .96;
+    letter-spacing: var(--ls-tight); font-weight: var(--fw-medium);
+    margin: 16px 0 16px;
+  }
+  .top-banner h1 .accent{ color: var(--accent); }
+  .top-banner .sub{ color: var(--text-2); font-size: 17px; max-width: 60ch; margin: 0; }
+  .top-banner .crumb{
+    font-family: var(--font-mono); font-size: var(--fs-mono);
+    color: var(--text-3); letter-spacing: .04em;
+  }
+  .top-banner .crumb b{ color: var(--accent); font-weight: 500; }
+
+  section.bk{ padding: 72px 0; border-bottom: var(--bd); }
+  .bk h2{
+    font-family: var(--font-mono); font-size: var(--fs-mono); color: var(--text-3);
+    letter-spacing: .08em; text-transform: uppercase;
+    margin: 0 0 8px; font-weight: var(--fw-medium);
+  }
+  .bk h2 .num{ color: var(--accent); }
+  .bk .head{
+    font-size: 28px; line-height: 1.1; letter-spacing: var(--ls-tight-2);
+    font-weight: var(--fw-medium); margin: 0 0 36px;
+  }
+  .bk .head .light{ color: var(--text-2); font-weight: var(--fw-light); }
+
+  /* token panels */
+  .swatch-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .swatch{
+    background: var(--card); border: var(--bd); border-radius: var(--r-xl);
+    overflow: hidden;
+  }
+  .swatch .chip{ height: 80px; display:block; }
+  .swatch .meta{ padding: 12px 14px; }
+  .swatch .name{ font-family: var(--font-mono); font-size: 12px; color: var(--text); }
+  .swatch .hex{ font-family: var(--font-mono); font-size: 11px; color: var(--text-3); margin-top: 2px; }
+  .swatch .role{ font-size: 11px; color: var(--text-3); margin-top: 4px; }
+
+  /* type specimens */
+  .type-row{
+    display: grid; grid-template-columns: 200px 1fr; gap: 32px;
+    padding: 22px 0; border-bottom: var(--bd);
+  }
+  .type-row:last-child{ border-bottom: 0; }
+  .type-row .key{
+    font-family: var(--font-mono); font-size: var(--fs-mono); color: var(--text-3);
+    text-transform: uppercase; letter-spacing: var(--ls-wide);
+  }
+  .type-row .key b{ color: var(--text); font-weight: var(--fw-medium); display: block; margin-top: 4px; text-transform: none; letter-spacing: 0; font-family: var(--font-mono); }
+  .specimen-hero{ font-size: clamp(56px,7vw,96px); line-height: .94; letter-spacing: var(--ls-tight); font-weight: var(--fw-medium); margin: 0; }
+  .specimen-h2{ font-size: var(--fs-sec); line-height: 1.05; letter-spacing: var(--ls-tight-2); font-weight: var(--fw-medium); margin: 0; }
+  .specimen-h3{ font-size: var(--fs-h3); line-height: 1.2; letter-spacing: var(--ls-tight-4); font-weight: var(--fw-medium); margin: 0; }
+  .specimen-body{ font-size: var(--fs-body); line-height: 1.55; color: var(--text); margin: 0; max-width: 60ch; }
+  .specimen-mono{ font-family: var(--font-mono); font-size: var(--fs-mono); color: var(--text-3); margin: 0; }
+
+  /* spacing scale */
+  .space-grid{ display:flex; flex-direction:column; gap: 12px; }
+  .space-row{
+    display: grid; grid-template-columns: 120px 1fr 80px;
+    gap: 24px; align-items:center;
+    background: var(--card); border: var(--bd); border-radius: var(--r-md);
+    padding: 14px 18px;
+  }
+  .space-row .nm{ font-family: var(--font-mono); font-size: 12px; color: var(--text); }
+  .space-row .nm small{ color: var(--text-3); margin-left: 8px; }
+  .space-row .bar{ height: 8px; background: var(--accent-soft); border-left: 2px solid var(--accent); border-radius: 2px; }
+  .space-row .px{ font-family: var(--font-mono); font-size: var(--fs-mono); color: var(--text-3); text-align: right; }
+
+  /* radii */
+  .radii-grid{ display:grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+  .radius-tile{
+    background: var(--card); border: var(--bd); padding: 18px 12px;
+    display:flex; flex-direction:column; align-items:center; gap: 10px;
+  }
+  .radius-tile .sq{ width: 56px; height: 56px; background: var(--surface); border: var(--bd); }
+  .radius-tile .nm{ font-family: var(--font-mono); font-size: 11px; color: var(--text); }
+  .radius-tile .px{ font-family: var(--font-mono); font-size: 10px; color: var(--text-3); }
+
+  /* component blocks */
+  .demo{
+    background: var(--bg-2);
+    border: var(--bd); border-radius: var(--r-xl);
+    padding: 28px;
+    margin-bottom: 12px;
+  }
+  .demo-label{
+    font-family: var(--font-mono); font-size: var(--fs-mono); color: var(--text-3);
+    margin: 24px 0 8px; letter-spacing: var(--ls-wide); text-transform: uppercase;
+  }
+  .demo-label:first-of-type{ margin-top: 0; }
+  .demo-row{ display:flex; flex-wrap: wrap; gap: 12px; align-items:center; }
+
+  /* example bento */
+  .bento-demo{ display:grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: minmax(150px, auto); gap: 12px; }
+  .bento-demo .tile.feature{ grid-column: span 4; grid-row: span 2; }
+  .bento-demo .tile.span-2{ grid-column: span 2; }
+  .bento-demo .tile.span-3{ grid-column: span 3; }
+  .bento-demo .tile.feature h3{ font-size: 28px; letter-spacing: var(--ls-tight-3); line-height: 1.1; }
+  .bento-demo .tile.feature .visual{
+    margin-top: auto; height: 100px; border-radius: var(--r-md);
+    background:
+      linear-gradient(135deg, rgba(197,255,74,.18), rgba(197,255,74,0) 60%),
+      var(--bg-2);
+    border: var(--bd); position: relative; overflow: hidden;
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-3);
+  }
+  .bento-demo .tile.feature .visual .dots{
+    position:absolute; inset:16px;
+    background-image: radial-gradient(circle, var(--text-3) 1px, transparent 1px);
+    background-size: 14px 14px; opacity: .25;
+  }
+  .bento-demo .tile.feature .visual .label{
+    position:absolute; left: 16px; bottom: 14px; color: var(--accent); font-weight: 500;
+  }
+
+  .metric-row{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+  .stack-grid{ display:grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+
+  @media (max-width: 960px){
+    .docwrap{ padding: 0 20px; }
+    .swatch-grid{ grid-template-columns: repeat(2, 1fr); }
+    .type-row{ grid-template-columns: 1fr; }
+    .space-row{ grid-template-columns: 90px 1fr 60px; }
+    .radii-grid{ grid-template-columns: repeat(4, 1fr); }
+    .bento-demo{ grid-template-columns: repeat(2, 1fr); }
+    .bento-demo .tile.feature, .bento-demo .tile.span-2, .bento-demo .tile.span-3{ grid-column: span 2; grid-row: auto; }
+    .metric-row{ grid-template-columns: repeat(2, 1fr); }
+    .stack-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body class="bg-grid">
+
+<header class="top-banner">
+  <div class="docwrap">
+    <span class="crumb">design system <b>/ ai-native-dark</b> · v 1.0</span>
+    <h1>AI-Native <span class="accent">Dark</span></h1>
+    <p class="sub">Single-accent, terminal-inflected dark system. Built for builder portfolios, AI product surfaces, and dev-tool dashboards. <span class="mono" style="color:var(--text-3)">Geist + Geist Mono · #C5FF4A</span></p>
+  </div>
+</header>
+
+<!-- COLORS -->
+<section class="bk" id="colors">
+  <div class="docwrap">
+    <h2><span class="num">/01</span> · color</h2>
+    <p class="head">Three neutral steps, one accent. <span class="light">Surfaces step up in lightness, not in shadow.</span></p>
+
+    <div class="demo-label">Neutrals · background → card</div>
+    <div class="swatch-grid">
+      <div class="swatch"><span class="chip" style="background:#0A0A0A"></span><div class="meta"><div class="name">--bg</div><div class="hex">#0A0A0A</div><div class="role">page background</div></div></div>
+      <div class="swatch"><span class="chip" style="background:#0F0F0F"></span><div class="meta"><div class="name">--bg-2</div><div class="hex">#0F0F0F</div><div class="role">subtle elevation, statusbar, card heads</div></div></div>
+      <div class="swatch"><span class="chip" style="background:#141414"></span><div class="meta"><div class="name">--surface</div><div class="hex">#141414</div><div class="role">hover surface</div></div></div>
+      <div class="swatch"><span class="chip" style="background:#171717"></span><div class="meta"><div class="name">--card</div><div class="hex">#171717</div><div class="role">cards, tiles</div></div></div>
+    </div>
+
+    <div class="demo-label" style="margin-top:24px">Lines + text</div>
+    <div class="swatch-grid">
+      <div class="swatch"><span class="chip" style="background:#222"></span><div class="meta"><div class="name">--line</div><div class="hex">#222222</div><div class="role">default borders</div></div></div>
+      <div class="swatch"><span class="chip" style="background:#2a2a2a"></span><div class="meta"><div class="name">--line-2</div><div class="hex">#2a2a2a</div><div class="role">stronger separators</div></div></div>
+      <div class="swatch"><span class="chip" style="background:#FAFAFA"></span><div class="meta"><div class="name">--text</div><div class="hex">#FAFAFA</div><div class="role">primary text</div></div></div>
+      <div class="swatch"><span class="chip" style="background:#A1A1AA"></span><div class="meta"><div class="name">--text-2</div><div class="hex">#A1A1AA</div><div class="role">secondary, body, lede</div></div></div>
+      <div class="swatch"><span class="chip" style="background:#71717A"></span><div class="meta"><div class="name">--text-3</div><div class="hex">#71717A</div><div class="role">tertiary, mono labels, meta</div></div></div>
+    </div>
+
+    <div class="demo-label" style="margin-top:24px">Accent + semantic</div>
+    <div class="swatch-grid">
+      <div class="swatch"><span class="chip" style="background:#C5FF4A"></span><div class="meta"><div class="name">--accent</div><div class="hex">#C5FF4A</div><div class="role">single accent — use sparingly</div></div></div>
+      <div class="swatch"><span class="chip" style="background:#84cc16"></span><div class="meta"><div class="name">--accent-2</div><div class="hex">#84cc16</div><div class="role">accent press / darker</div></div></div>
+      <div class="swatch"><span class="chip" style="background:#FF6B35"></span><div class="meta"><div class="name">--warn</div><div class="hex">#FF6B35</div><div class="role">semantic warning</div></div></div>
+      <div class="swatch"><span class="chip" style="background:#22c55e"></span><div class="meta"><div class="name">--good</div><div class="hex">#22c55e</div><div class="role">semantic positive</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPE -->
+<section class="bk" id="type">
+  <div class="docwrap">
+    <h2><span class="num">/02</span> · type</h2>
+    <p class="head">Geist for everything. <span class="light">Mono is exclusively for metadata — paths, labels, statuses, key/value tables.</span></p>
+
+    <div class="type-row">
+      <div class="key">Hero<b>--fs-hero · 500 · -.04em</b></div>
+      <div><h1 class="specimen-hero">Pedro <span style="color:var(--accent)">García</span><br/><span style="color:var(--text-2);font-weight:300">construye sistemas.</span></h1></div>
+    </div>
+    <div class="type-row">
+      <div class="key">Section<b>--fs-sec · 500 · -.025em</b></div>
+      <div><h2 class="specimen-h2">Lo que estoy <span style="color:var(--accent)">construyendo</span>.</h2></div>
+    </div>
+    <div class="type-row">
+      <div class="key">Tile / card<b>--fs-h3 · 500 · -.015em</b></div>
+      <div><h3 class="specimen-h3">Programa de IA aplicada a 40k+ personas</h3></div>
+    </div>
+    <div class="type-row">
+      <div class="key">Body<b>--fs-body · 400 · 1.55</b></div>
+      <div><p class="specimen-body" style="color:var(--text-2)">Trabajo en la intersección entre negocio, equipos y tecnología. Diseño frameworks ágiles y programas de adopción de IA para organizaciones de ingeniería de 40.000+ personas.</p></div>
+    </div>
+    <div class="type-row">
+      <div class="key">Mono · meta<b>Geist Mono · 11–12px · text-3</b></div>
+      <div><p class="specimen-mono">→ rol: agile_coach × ai_strategy &nbsp;·&nbsp; build 2026.q4 &nbsp;·&nbsp; ~/pedro-garcia.dev</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SPACING -->
+<section class="bk" id="spacing">
+  <div class="docwrap">
+    <h2><span class="num">/03</span> · spacing &amp; radii</h2>
+    <p class="head">Tight cards, generous sections. <span class="light">12–24px between dense elements, 88px between sections.</span></p>
+
+    <div class="demo-label">Scale</div>
+    <div class="space-grid">
+      <div class="space-row"><div class="nm">--s-1 <small>4</small></div><div><div class="bar" style="width:4px"></div></div><div class="px">4px</div></div>
+      <div class="space-row"><div class="nm">--s-2 <small>8</small></div><div><div class="bar" style="width:8px"></div></div><div class="px">8px</div></div>
+      <div class="space-row"><div class="nm">--s-3 <small>12</small></div><div><div class="bar" style="width:12px"></div></div><div class="px">12px</div></div>
+      <div class="space-row"><div class="nm">--s-4 <small>16</small></div><div><div class="bar" style="width:16px"></div></div><div class="px">16px</div></div>
+      <div class="space-row"><div class="nm">--s-5 <small>24</small></div><div><div class="bar" style="width:24px"></div></div><div class="px">24px</div></div>
+      <div class="space-row"><div class="nm">--s-6 <small>32</small></div><div><div class="bar" style="width:32px"></div></div><div class="px">32px</div></div>
+      <div class="space-row"><div class="nm">--s-7 <small>40</small></div><div><div class="bar" style="width:40px"></div></div><div class="px">40px</div></div>
+      <div class="space-row"><div class="nm">--s-8 <small>48</small></div><div><div class="bar" style="width:48px"></div></div><div class="px">48px</div></div>
+      <div class="space-row"><div class="nm">--s-9 <small>64</small></div><div><div class="bar" style="width:64px"></div></div><div class="px">64px</div></div>
+      <div class="space-row"><div class="nm">--s-10 <small>80</small></div><div><div class="bar" style="width:80px"></div></div><div class="px">80px</div></div>
+      <div class="space-row"><div class="nm">--s-11 <small>88</small></div><div><div class="bar" style="width:88px"></div></div><div class="px">88px</div></div>
+    </div>
+
+    <div class="demo-label" style="margin-top:32px">Radii</div>
+    <div class="radii-grid">
+      <div class="radius-tile"><div class="sq" style="border-radius:4px"></div><div class="nm">--r-xs</div><div class="px">4px</div></div>
+      <div class="radius-tile"><div class="sq" style="border-radius:6px"></div><div class="nm">--r-sm</div><div class="px">6px</div></div>
+      <div class="radius-tile"><div class="sq" style="border-radius:8px"></div><div class="nm">--r-md</div><div class="px">8px</div></div>
+      <div class="radius-tile"><div class="sq" style="border-radius:10px"></div><div class="nm">--r-lg</div><div class="px">10px</div></div>
+      <div class="radius-tile"><div class="sq" style="border-radius:12px"></div><div class="nm">--r-xl</div><div class="px">12px</div></div>
+      <div class="radius-tile"><div class="sq" style="border-radius:16px"></div><div class="nm">--r-2xl</div><div class="px">16px</div></div>
+      <div class="radius-tile"><div class="sq" style="border-radius:999px"></div><div class="nm">--r-pill</div><div class="px">999</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPONENTS -->
+<section class="bk" id="components">
+  <div class="docwrap">
+    <h2><span class="num">/04</span> · components</h2>
+    <p class="head">The full kit. <span class="light">Every class below comes from `components.css` — composable as-is.</span></p>
+
+    <div class="demo-label">Buttons</div>
+    <div class="demo">
+      <div class="demo-row">
+        <a class="btn primary">Ver proyectos <span class="arrow">→</span></a>
+        <a class="btn">Pregúntame algo <span class="arrow">↓</span></a>
+        <span class="kbd"><kbd>⌘</kbd><kbd>K</kbd>&nbsp;buscar</span>
+      </div>
+    </div>
+
+    <div class="demo-label">Badges &amp; pills</div>
+    <div class="demo">
+      <div class="demo-row">
+        <span class="badge activo"><span class="dot"></span>activo</span>
+        <span class="badge completado"><span class="dot"></span>completado</span>
+        <span class="pill"><span class="live-dot" style="width:5px;height:5px"></span>open to work</span>
+        <span class="live-dot"></span>
+        <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-3)">← live-dot (pinging)</span>
+      </div>
+    </div>
+
+    <div class="demo-label">Section label (eyebrow)</div>
+    <div class="demo">
+      <div class="seclabel">
+        <span class="num">/01</span>
+        <span>proyectos</span>
+        <span class="line"></span>
+        <span class="meta">4 destacados · ver todos →</span>
+      </div>
+    </div>
+
+    <div class="demo-label">Info card · profile.json</div>
+    <div class="demo">
+      <aside class="info-card" style="max-width:380px">
+        <div class="card-head">
+          <span class="lhs"><span class="live-dot"></span>profile.json</span>
+          <span class="v">v 4.2</span>
+        </div>
+        <dl>
+          <div><dt>rol</dt><dd>Agile Coach</dd></div>
+          <div><dt>foco</dt><dd>AI Strategy</dd></div>
+          <div><dt>base</dt><dd>Madrid · CET</dd></div>
+          <div><dt>estado</dt><dd><span class="pill"><span class="live-dot" style="width:5px;height:5px"></span>open to work</span></dd></div>
+        </dl>
+      </aside>
+    </div>
+
+    <div class="demo-label">Bento · project tiles</div>
+    <div class="demo">
+      <div class="bento-demo">
+        <a class="tile feature">
+          <div class="meta">
+            <span><span class="org">Acciona</span> · 2024 → ahora</span>
+            <span class="badge activo"><span class="dot"></span>activo</span>
+          </div>
+          <h3>Programa de IA aplicada a 40k+ personas</h3>
+          <p>Estrategia, adopción y framework de medición. Stack: Claude + RAG corporativo + agentes internos.</p>
+          <div class="visual">
+            <div class="dots"></div>
+            <span class="label">/programa.acciona.ai</span>
+          </div>
+          <div class="footer">
+            <span class="read">leer caso →</span>
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-3)">+72% adopción</span>
+          </div>
+        </a>
+        <a class="tile span-2">
+          <div class="meta"><span><span class="org">BBVA</span></span><span class="badge completado"><span class="dot"></span>completado</span></div>
+          <h3>Onboarding de equipos en metodologías ágiles</h3>
+          <p>Diseño + roll-out a 12 squads.</p>
+          <div class="footer"><span class="read">leer caso →</span></div>
+        </a>
+        <a class="tile span-2">
+          <div class="meta"><span><span class="org">Telefónica</span></span><span class="badge completado"><span class="dot"></span>completado</span></div>
+          <h3>Sistema de OKRs para área de producto</h3>
+          <p>De Excel disperso a cadencia trimestral.</p>
+          <div class="footer"><span class="read">leer caso →</span></div>
+        </a>
+      </div>
+    </div>
+
+    <div class="demo-label">Metrics</div>
+    <div class="demo">
+      <div class="metric-row">
+        <div class="metric">
+          <div class="lbl">scope</div>
+          <div class="big">40<span class="unit">k+</span></div>
+          <div class="ctx">Personas impactadas por programas activos.</div>
+        </div>
+        <div class="metric">
+          <div class="lbl">adopción</div>
+          <div class="big"><span class="accent">+72</span><span class="unit">%</span></div>
+          <div class="ctx">Crecimiento de uso del asistente interno H2 2025.</div>
+        </div>
+        <div class="metric">
+          <div class="lbl">años</div>
+          <div class="big">12</div>
+          <div class="ctx">En coaching ágil y transformación.</div>
+        </div>
+        <div class="metric">
+          <div class="lbl">equipos</div>
+          <div class="big">200<span class="unit">+</span></div>
+          <div class="ctx">Squads acompañados desde 2014.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-label">Timeline</div>
+    <div class="demo" style="padding-top:0;padding-bottom:0">
+      <div class="timeline">
+        <div class="tl-row">
+          <div class="when">2024 — <span class="now-tag">ahora</span></div>
+          <div class="core">
+            <h3>Acciona</h3>
+            <p class="role">Agile Coach Lead · AI Strategy</p>
+          </div>
+          <p class="desc">Programa de IA corporativa a escala. Diseño, adopción y métricas.</p>
+        </div>
+        <div class="tl-row">
+          <div class="when">2019 — 2023</div>
+          <div class="core">
+            <h3>BBVA</h3>
+            <p class="role">Senior Agile Coach</p>
+          </div>
+          <p class="desc">Onboarding de 12 squads a metodologías ágiles. Frameworks de OKRs.</p>
+        </div>
+        <div class="tl-row">
+          <div class="when">2014 — 2019</div>
+          <div class="core">
+            <h3>Freelance</h3>
+            <p class="role">Coach &amp; consultor</p>
+          </div>
+          <p class="desc">+30 organizaciones acompañadas en transformación ágil.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-label">Ask card (Claude-powered input)</div>
+    <div class="demo" style="padding:0;background:transparent;border:0">
+      <div class="ask-card">
+        <div class="ask-head">
+          <span class="l"><span class="live-dot"></span><b>pregúntame</b> · powered by claude</span>
+          <span class="r">haiku 4.5</span>
+        </div>
+        <div class="ask-body">
+          <div class="left">
+            <h3>Hazme una <span class="accent">pregunta</span>.</h3>
+            <p>Yo respondo en tiempo real con contexto de mi CV, casos y stack.</p>
+          </div>
+          <div class="right">
+            <form onsubmit="event.preventDefault()">
+              <input type="text" placeholder="¿Cuánta gente has formado en agentes?" />
+              <button class="send" type="submit">Enviar <span>→</span></button>
+            </form>
+            <div class="answer" style="color:var(--text-2)">Pregunta algo o usa una sugerencia ↓</div>
+            <div class="suggestions">
+              <button class="sugg">¿Casos en banca?</button>
+              <button class="sugg">¿Tu stack favorito?</button>
+              <button class="sugg">¿Disponibilidad?</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-label">Stack cells</div>
+    <div class="demo">
+      <div class="stack-grid">
+        <div class="stack-cell"><span class="cat">llm</span><span class="name">Claude</span></div>
+        <div class="stack-cell"><span class="cat">framework</span><span class="name">Scrum @ Scale</span></div>
+        <div class="stack-cell"><span class="cat">tool</span><span class="name">Linear</span></div>
+        <div class="stack-cell"><span class="cat">tool</span><span class="name">Notion</span></div>
+        <div class="stack-cell"><span class="cat">framework</span><span class="name">OKRs</span></div>
+        <div class="stack-cell"><span class="cat">framework</span><span class="name">Lean</span></div>
+      </div>
+    </div>
+
+    <div class="demo-label">Terminal-styled window</div>
+    <div class="demo" style="padding:0;background:transparent;border:0">
+      <div class="term-window" style="max-width:640px">
+        <div class="term-head">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="path">~/<b>pedro-garcia.dev</b> — claude-haiku-4.5</span>
+          <span class="status"><span class="live-dot"></span>streaming</span>
+        </div>
+        <div class="term-body">
+          <div class="term-line">
+            <span class="term-marker">&gt;</span>
+            <span class="term-text prompt">generate experience.profile("pedro_garcía") --stream</span>
+          </div>
+          <div class="term-line">
+            <span class="term-marker accent">←</span>
+            <span class="term-text">→ rol: agile_coach × ai_strategy
+→ scope: 40.000+ personas · acciona
+→ render: ok ✓</span><span class="type-cursor"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-label">Shimmer word (regenerating accent)</div>
+    <div class="demo">
+      <p style="font-size:22px;color:var(--text-2);line-height:1.45;margin:0;max-width:60ch">
+        Diseño <span class="shim active" id="shim-demo">frameworks ágiles</span> y programas de adopción de IA para organizaciones de
+        <span class="shim active" id="shim-demo-2">40.000+ personas</span>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:64px 0 24px;border-top:var(--bd);color:var(--text-3);font-family:var(--font-mono);font-size:11px">
+  <div class="docwrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <span>ai-native-dark · v 1.0 · extracted from pedro-garcia.dev</span>
+    <span>see README.md for full guidance</span>
+  </div>
+</footer>
+
+<script>
+  // Loop shimmer demo so it's visible on the showcase
+  const shimLoop = (el) => {
+    setInterval(() => {
+      el.classList.remove('active');
+      void el.offsetWidth;
+      el.classList.add('active');
+    }, 3200);
+  };
+  const a = document.getElementById('shim-demo');
+  const b = document.getElementById('shim-demo-2');
+  if (a) shimLoop(a);
+  if (b) setTimeout(() => shimLoop(b), 1600);
+</script>
+
+</body>
+</html>

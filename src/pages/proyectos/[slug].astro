@@ -16,39 +16,39 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 <Layout title={proyecto.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}>
   <!-- Breadcrumb -->
-  <nav class="text-sm text-slate-500 mb-10 flex items-center gap-2">
-    <a href={`${base}/`} class="hover:text-slate-300 transition-colors">Inicio</a>
+  <nav style="font-family:var(--font-mono);font-size:var(--fs-mono);color:var(--text-3);margin-bottom:var(--s-8);display:flex;align-items:center;gap:var(--s-2);">
+    <a href={`${base}/`} style="color:var(--text-3);transition:color var(--dur-fast);" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-3)'">Inicio</a>
     <span>·</span>
-    <a href={`${base}/proyectos`} class="hover:text-slate-300 transition-colors">Proyectos</a>
+    <a href={`${base}/proyectos`} style="color:var(--text-3);transition:color var(--dur-fast);" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-3)'">Proyectos</a>
   </nav>
 
   <!-- Header -->
-  <header class="mb-12">
-    <div class="flex items-start gap-3 mb-3">
-      <h1 class="text-3xl font-bold text-white tracking-tight">
+  <header style="margin-bottom:var(--s-9);">
+    <div style="display:flex;align-items:flex-start;gap:var(--s-3);margin-bottom:var(--s-3);">
+      <h1 style="font-size:var(--fs-h2);font-weight:var(--fw-bold);color:var(--text);letter-spacing:var(--ls-tight-3);line-height:1.1;">
         {proyecto.id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
       </h1>
       {proyecto.data.status === 'activo'
-        ? <span class="badge-active self-start mt-1.5 shrink-0">activo</span>
+        ? <span class="badge-active" style="flex-shrink:0;margin-top:6px;">activo</span>
         : proyecto.data.status
-          ? <span class="badge-done self-start mt-1.5 shrink-0">completado</span>
+          ? <span class="badge-done" style="flex-shrink:0;margin-top:6px;">completado</span>
           : null
       }
     </div>
-    {proyecto.data.cliente && <p class="mono mb-3">{proyecto.data.cliente}</p>}
-    {proyecto.data.periodo && <p class="text-sm text-slate-400">{proyecto.data.periodo}</p>}
-    <div class="flex gap-2 flex-wrap mt-3">
+    {proyecto.data.cliente && <p class="mono" style="margin-bottom:var(--s-2);">{proyecto.data.cliente}</p>}
+    {proyecto.data.periodo && <p style="font-size:13px;color:var(--text-3);">{proyecto.data.periodo}</p>}
+    <div style="display:flex;gap:var(--s-2);flex-wrap:wrap;margin-top:var(--s-3);">
       {proyecto.data.tags
-        .filter(t => t !== 'publicable' && !t.startsWith('wiki/'))
-        .map(tag => (
-          <span class="glass text-xs text-slate-400 px-2 py-0.5 rounded">{tag}</span>
+        .filter((t: string) => t !== 'publicable' && !t.startsWith('wiki/'))
+        .map((tag: string) => (
+          <span style="background:var(--card);border:var(--bd);border-radius:var(--r-sm);padding:2px var(--s-2);font-family:var(--font-mono);font-size:var(--fs-mono);color:var(--text-3);">{tag}</span>
         ))
       }
     </div>
   </header>
 
   <!-- Contenido -->
-  <article class="prose max-w-none">
+  <article class="prose" style="max-width:none;">
     <Content />
   </article>
 </Layout>

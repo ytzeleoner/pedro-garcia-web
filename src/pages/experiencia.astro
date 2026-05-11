@@ -57,43 +57,42 @@ const logros = [
 ---
 
 <Layout title="Experiencia">
-  <p class="mono mb-3">experiencia</p>
-  <h1 class="text-3xl font-bold text-white mb-3 tracking-tight">Trayectoria</h1>
-  <p class="text-slate-400 mb-14 max-w-lg">Roles, logros medibles y proyectos que han dejado huella.</p>
+  <p class="mono" style="margin-bottom:var(--s-3);">experiencia</p>
+  <h1 style="font-size:var(--fs-h2);font-weight:var(--fw-bold);color:var(--text);margin-bottom:var(--s-3);letter-spacing:var(--ls-tight-3);">Trayectoria</h1>
+  <p style="color:var(--text-2);margin-bottom:var(--s-9);max-width:42ch;">Roles, logros medibles y proyectos que han dejado huella.</p>
 
-  <!-- Timeline ─────────────────────────────────────────── -->
-  <section class="mb-20">
-    <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-widest mb-6">Historial</h2>
-    <div class="space-y-4">
+  <!-- Timeline -->
+  <section style="margin-bottom:var(--s-10);">
+    <div class="seclabel"><span class="num">01</span> Historial <span class="line"></span></div>
+    <div style="display:flex;flex-direction:column;gap:var(--s-3);">
       {etapas.map(e => (
-        <div class="glass p-5 flex gap-5">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center text-xs font-bold shrink-0"
-               style="background: rgba(139,92,246,0.15); color: #a78bfa; border: 1px solid rgba(139,92,246,0.25);">
+        <div class="glass" style="padding:var(--s-5);display:flex;gap:var(--s-5);">
+          <div style="width:44px;height:44px;border-radius:var(--r-xl);display:flex;align-items:center;justify-content:center;font-size:var(--fs-mono);font-weight:var(--fw-bold);flex-shrink:0;background:var(--accent-soft);color:var(--accent);border:1px solid rgba(197,255,74,.2);font-family:var(--font-mono);">
             {e.iniciales}
           </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-2 mb-1">
-              <h3 class="font-semibold text-white">{e.cliente}</h3>
-              {e.activo && <span class="badge-active shrink-0">actual</span>}
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--s-2);margin-bottom:var(--s-1);">
+              <h3 style="font-weight:var(--fw-semi);color:var(--text);">{e.cliente}</h3>
+              {e.activo && <span class="badge-active">actual</span>}
             </div>
-            <p class="text-sm text-slate-400 mb-2">{e.rol} <span class="text-slate-600 mx-1">·</span> <span class="mono text-xs">{e.periodo}</span></p>
-            <p class="text-sm text-slate-300 leading-relaxed">{e.descripcion}</p>
+            <p style="font-size:13px;color:var(--text-2);margin-bottom:var(--s-2);">{e.rol} <span style="color:var(--line-2);margin:0 4px;">·</span> <span style="font-family:var(--font-mono);font-size:var(--fs-mono);">{e.periodo}</span></p>
+            <p style="font-size:13px;color:var(--text-2);line-height:1.6;">{e.descripcion}</p>
           </div>
         </div>
       ))}
     </div>
   </section>
 
-  <!-- Logros ───────────────────────────────────────────── -->
+  <!-- Logros -->
   <section>
-    <h2 class="text-sm font-semibold text-slate-400 uppercase tracking-widest mb-6">Logros destacados</h2>
-    <div class="grid gap-4 sm:grid-cols-2">
+    <div class="seclabel"><span class="num">02</span> Logros destacados <span class="line"></span></div>
+    <div style="display:grid;gap:var(--s-4);grid-template-columns:repeat(auto-fill,minmax(260px,1fr));">
       {logros.map(l => (
-        <div class="glass p-5">
-          <p class="mono mb-2">{l.contexto}</p>
-          <h3 class="font-semibold text-white mb-2">{l.titulo}</h3>
-          <p class="text-sm text-slate-400 leading-relaxed mb-4">{l.descripcion}</p>
-          <span class="metric">{l.metrica}</span>
+        <div class="glass" style="padding:var(--s-5);">
+          <p class="mono" style="margin-bottom:var(--s-2);">{l.contexto}</p>
+          <h3 style="font-weight:var(--fw-semi);color:var(--text);margin-bottom:var(--s-2);">{l.titulo}</h3>
+          <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:var(--s-4);">{l.descripcion}</p>
+          <span class="badge-active">{l.metrica}</span>
         </div>
       ))}
     </div>

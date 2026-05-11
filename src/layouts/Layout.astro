@@ -18,32 +18,37 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta name="description" content={description} />
     <title>{title} · Pedro García</title>
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <script src={`${base}/animations.js`} is:inline></script>
   </head>
   <body>
-    <header class="sticky top-0 z-50 border-b border-white/5" style="background: rgba(10,10,20,0.8); backdrop-filter: blur(16px);">
-      <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href={`${base}/`} class="font-semibold text-white hover:text-violet-300 transition-colors tracking-tight">
+    <header style="position:sticky;top:0;z-index:30;background:rgba(10,10,10,.72);backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);border-bottom:var(--bd);">
+      <div style="max-width:896px;margin:0 auto;padding:0 var(--s-5);display:flex;align-items:center;justify-content:space-between;height:56px;gap:var(--s-5);">
+        <a href={`${base}/`} style="display:flex;align-items:center;gap:10px;font-size:13px;font-weight:var(--fw-medium);letter-spacing:-.005em;color:var(--text);text-decoration:none;">
+          <span style="width:24px;height:24px;border-radius:var(--r-sm);background:var(--accent);color:var(--bg);display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:var(--fw-semi);font-size:13px;">P</span>
           Pedro García
         </a>
-        <nav class="flex gap-7 text-sm text-slate-400">
-          <a href={`${base}/experiencia`} class="hover:text-white transition-colors">Experiencia</a>
-          <a href={`${base}/proyectos`} class="hover:text-white transition-colors">Proyectos</a>
-          <a href={`${base}/conceptos`} class="hover:text-white transition-colors">Conceptos</a>
-          <a href={`${base}/blog`} class="hover:text-white transition-colors">Blog</a>
+        <nav style="display:flex;gap:0;list-style:none;margin:0;padding:0;">
+          {[['Experiencia', `${base}/experiencia`], ['Proyectos', `${base}/proyectos`], ['Conceptos', `${base}/conceptos`], ['Blog', `${base}/blog`]].map(([label, href]) => (
+            <a href={href} style="display:flex;align-items:center;padding:var(--s-2) 14px;font-size:13px;color:var(--text-2);border-radius:var(--r-sm);transition:color var(--dur-fast),background var(--dur-fast);"
+               onmouseover="this.style.color='var(--text)';this.style.background='rgba(255,255,255,.04)'"
+               onmouseout="this.style.color='var(--text-2)';this.style.background='transparent'">
+              {label}
+            </a>
+          ))}
         </nav>
       </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-6 py-16">
+    <main style="max-width:896px;margin:0 auto;padding:var(--s-10) var(--s-5);">
       <slot />
     </main>
 
-    <footer class="border-t border-white/5 py-10 px-6 mt-20">
-      <div class="max-w-4xl mx-auto flex items-center justify-between text-sm text-slate-500">
-        <span class="mono">pedro-garcia.dev</span>
-        <div class="flex gap-6">
-          <a href="https://github.com/pedrogarcia" class="hover:text-slate-300 transition-colors">GitHub</a>
-          <a href="https://linkedin.com/in/pedrogarcia" class="hover:text-slate-300 transition-colors">LinkedIn</a>
+    <footer style="border-top:var(--bd);padding:var(--s-10) var(--s-5);margin-top:var(--s-11);">
+      <div style="max-width:896px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-family:var(--font-mono);font-size:var(--fs-mono);color:var(--text-3);">pedro-garcia.dev</span>
+        <div style="display:flex;gap:var(--s-5);">
+          <a href="https://github.com/pedrogarcia" style="font-size:13px;color:var(--text-3);transition:color var(--dur-fast);" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-3)'">GitHub</a>
+          <a href="https://linkedin.com/in/pedrogarcia" style="font-size:13px;color:var(--text-3);transition:color var(--dur-fast);" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text-3)'">LinkedIn</a>
         </div>
       </div>
     </footer>
