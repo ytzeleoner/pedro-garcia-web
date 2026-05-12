@@ -4,6 +4,10 @@ import { getCollection } from 'astro:content';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
+const sobreMiEntries = await getCollection('sobreMi');
+const perfil = sobreMiEntries.find(e => e.id === 'perfil');
+const lede = perfil?.data.lede ?? 'Trabajo en la intersección entre <strong>negocio, equipos y tecnología</strong>. Diseño frameworks ágiles y programas de adopción de IA para organizaciones de ingeniería de <span class="shim" data-alts="40.000+ personas|decenas de equipos|el departamento entero">40.000+ personas</span>.';
+
 const proyectos = (await getCollection('proyectos'))
   .filter(p => p.data.tags.includes('publicable'))
   .sort((a, b) => (b.data.created?.getTime() ?? 0) - (a.data.created?.getTime() ?? 0))
@@ -335,11 +339,7 @@ const stack = [
           <span class="light">construye sistemas</span><br/>
           <span class="light">que escalan.</span>
         </h1>
-        <p class="lede" data-typing>
-          Trabajo en la intersección entre <strong>negocio, equipos y tecnología</strong>.
-          Diseño <span class="shim" data-alts="frameworks ágiles|sistemas con IA|programas Key Players">frameworks ágiles</span> y programas de adopción de IA para organizaciones
-          de ingeniería de <span class="shim" data-alts="40.000+ personas|decenas de equipos|el departamento entero">40.000+ personas</span>.
-        </p>
+        <p class="lede" data-typing set:html={lede} />
         <div class="cta-row">
           <a href="#proyectos" class="btn primary">Ver proyectos <span class="arrow">→</span></a>
           <a href={`${base}/blog`} class="btn">Blog</a>

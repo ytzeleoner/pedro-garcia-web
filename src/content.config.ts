@@ -24,7 +24,9 @@ const conceptos = defineCollection({
 
 const sobreMi = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/wiki/sobre-mi' }),
-  schema: baseSchema,
+  schema: baseSchema.extend({
+    lede: z.string().optional(),
+  }),
 });
 
 const publicaciones = defineCollection({

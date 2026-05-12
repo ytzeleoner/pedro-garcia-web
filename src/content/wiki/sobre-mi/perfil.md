@@ -3,6 +3,7 @@ tags: [wiki/sobre-mi, publicable]
 created: 2026-05-07
 updated: 2026-05-07
 source: "[[Propuesta de valor]], [[Áreas de expertise]]"
+lede: "Trabajo en la intersección entre negocio, equipos y tecnología. Diseño frameworks ágiles y programas de adopción de IA para organizaciones de ingeniería de 40.000+ personas."
 ---
 
 # Perfil profesional
